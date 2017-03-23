@@ -34,7 +34,6 @@
 
 #import "BKiCloudConfigurationViewController.h"
 #import "BKUserConfigurationManager.h"
-#import "Blink-swift.h"
 
 @interface BKiCloudConfigurationViewController ()
 
@@ -81,8 +80,6 @@
     } else {
       state = @"RemovePasscode";
     }
-    PasscodeLockViewController *lockViewController = [[PasscodeLockViewController alloc] initWithStateString:state];
-    [self.navigationController pushViewController:lockViewController animated:YES];
   }
 }
 

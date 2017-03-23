@@ -32,7 +32,6 @@
 #import "BKSecurityConfigurationViewController.h"
 #import "BKTouchIDAuthManager.h"
 #import "BKUserConfigurationManager.h"
-#import "Blink-swift.h"
 
 @interface BKSecurityConfigurationViewController () <UINavigationControllerDelegate>
 
@@ -69,14 +68,7 @@
     } else {
       state = @"RemovePasscode";
     }
-    PasscodeLockViewController *lockViewController = [[PasscodeLockViewController alloc] initWithStateString:state];
-    lockViewController.completionCallback = ^{
-      [BKUserConfigurationManager setUserSettingsValue:!_toggleAppLock.isOn forKey:BKUserConfigAutoLock];
-      [[BKTouchIDAuthManager sharedManager] registerforDeviceLockNotif];
-      [self setupUI];
-    };
-    [self.navigationController pushViewController:lockViewController animated:YES];
-  }
+      }
 }
 
 

@@ -31,7 +31,6 @@
 
 #import "BKTouchIDAuthManager.h"
 #import "BKUserConfigurationManager.h"
-#import "Blink-swift.h"
 
 @import LocalAuthentication;
 
@@ -41,7 +40,6 @@ static BOOL authRequired = NO;
 @interface BKTouchIDAuthManager ()
 
 @property (nonatomic, strong) UIViewController *rootViewController;
-@property (nonatomic, strong) PasscodeLockViewController *lockViewController;
 
 @end
 
@@ -112,32 +110,15 @@ static void displayStatusChanged(CFNotificationCenterRef center, void *observer,
 - (void)authenticateUser
 {
   
-  if (_lockViewController != nil) {
-    return;
-  }
+
   
   UIApplication *app = [UIApplication sharedApplication];
   
-  _lockViewController = [[PasscodeLockViewController alloc] initWithStateString:@"EnterPassCode"];
 
   __weak BKTouchIDAuthManager *weakSelf = self;
   
-  _lockViewController.dismissCompletionCallback = ^{
-    authRequired = NO;
-    [[app keyWindow] setRootViewController:weakSelf.rootViewController];
-    
-    weakSelf.lockViewController = nil;
-    weakSelf.rootViewController = nil;
-    
-    // HACK: focusOnShell is an action. so no type dependency here. But still action dependency.
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      [[[app keyWindow] rootViewController] becomeFirstResponder];
-      [app sendAction:NSSelectorFromString(@"focusOnShell") to:nil from:nil forEvent:nil];
-    }];
-  };
   
   _rootViewController = [[app keyWindow] rootViewController];
-  [[app keyWindow] setRootViewController:_lockViewController];
 }
 
 
